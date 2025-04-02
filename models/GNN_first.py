@@ -18,18 +18,17 @@ class GCN(torch.nn.Module):
             - hidden_embeding (int): Размер скрытого векторного пространства.
         dataset
     """
-    def __init__(self, hyperparameters, dataset):
+    def __init__(self, hyperparameters):
         super(GCN, self).__init__()
         torch.manual_seed(12345)  # Фиксируем случайное начальное состояние для воспроизводимости
 
         # 1. Инициализация гиперпараметров
         self.hidden_embeding = hyperparameters['hidden_embeding']
-        self.dataset = dataset
 
         # 2. Слои для обработки структурных данных (атомы и их связи)
         # PointTransformerConv - графовый слой, учитывающий позиции атомов
         self.structural_embedding = PointTransformerConv(
-            in_channels=self.dataset.num_node_features,  # Количество признаков узла (например, 5)
+            in_channels=  hyperparameters['num_node_features'],  # Количество признаков узла (например, 5)
             out_channels=self.hidden_embeding       # Размер выходного эмбеддинга
         )
 
